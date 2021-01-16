@@ -8,7 +8,7 @@ namespace BankLibrary {
         protected internal event AccountStateHandler Calculated; // начисление процентов на счет
 
         static int counter = 0;
-        protected int _day = 0; // дней с момента открытия счета 
+        protected int _days = 0; // дней с момента открытия счета 
 
 
         public Account(decimal sum, int percentage) {
@@ -48,10 +48,10 @@ namespace BankLibrary {
 
         public virtual void Put(decimal sum) {
             Sum += sum;
-            OnAdded(new AccountEventArgs($"На счет поступило : {0}", sum));
+            OnAdded(new AccountEventArgs($"На счет поступило " +sum, sum));
         }
 
-        public decimal Withdraw(decimal sum) {
+        public virtual decimal Withdraw(decimal sum) {
             decimal result = 0;
             if (Sum > sum) {
                 Sum -= sum;
@@ -61,6 +61,24 @@ namespace BankLibrary {
                 OnWithdraw(new AccountEventArgs($"Недостаточно денег на счете {Id}", 0));
             }
             return result;
+        }
+
+        protected internal virtual void Open() {
+            OnOpened(new AccountEventArgs($"Открыт новый счет ID счета : {Id}", Sum));
+        }
+
+        protected internal virtual void Close() {
+            OnClosed(new AccountEventArgs($"Счет {Id} закрыт. Итоговая сумма {Sum}", Sum));
+        }
+
+        protected internal void IncrementDays() {
+            _days++;
+        }
+
+        protected internal virtual void Calculate() {
+            decimal increment = Sum * Percentage / 100;
+            Sum = Sum + increment;
+            OnCalculated(new AccountEventArgs($"Начисляем проценты в размере {increment}", increment));
         }
     }
 }
