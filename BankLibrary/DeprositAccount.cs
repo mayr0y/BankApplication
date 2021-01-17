@@ -5,7 +5,7 @@ namespace BankLibrary {
         }
 
         protected internal override void Open() {
-            base.OnOpened(new AccountEventArgs("Открыт новый депозитный счет! Id счета: {this.Id}", this.Sum));
+            base.OnOpened(new AccountEventArgs($"Открыт новый депозитный счет! Id счета: {this.Id}", this.Sum));
         }
 
         public override void Put(decimal sum) {
