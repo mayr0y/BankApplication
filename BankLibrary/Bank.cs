@@ -73,12 +73,12 @@ namespace BankLibrary {
             account.Close();
 
             if (accounts.Length <= 1)
-                account = null;
+                accounts = null;
             else {
                 T[] tempAccounts = new T[accounts.Length - 1];
                 for (int i = 0, j = 0; i < accounts.Length; i++) {
                     if (i != index)
-                        tempAccounts[j++] = accounts[i]; 
+                        tempAccounts[j++] = accounts[i];
                 }
                 accounts = tempAccounts;
             }
